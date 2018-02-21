@@ -151,6 +151,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Vertice.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graficos.cpp" />
@@ -163,10 +164,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fshadersimple.shader" />
+    <None Include="fshadersimple.shader">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="GLFW\glfw3.dll" />
     <None Include="GL\glew32.dll" />
-    <None Include="vshadersimple.shader" />
+    <None Include="vshadersimple.shader">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
