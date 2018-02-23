@@ -25,21 +25,21 @@ GLuint bufferID;
 Shader *shader;
 
 void actualizar() { 
-	//Aquí esta bien para cambiar los valores
-	//De las variables de mi programa!
 	
-	/*red += 0.001;
-	green += 0.002;
-	blue += 0.003;
-
-	if (red > 1) red = 0;
-	if (green > 1) green = 0;
-	if (blue > 1) blue = 0;*/
 
 }
 
 void dibujar() {
-	
+	//Enlazar el shader
+	shader->enlazarShader();
+	//especificar el vertex array
+	glBindVertexArray(vertexArrayID);
+	//Dibujar
+	glDrawArrays(GL_TRIANGLES, 0, triangulo.size());
+	//soltar el vertex array
+	glBindVertexArray(0);
+	//soltar el shader
+	shader->desenlazarShader();
 }
 
 
@@ -81,7 +81,6 @@ int main()
 	}
 
 
-
 	const GLubyte *version = glGetString(GL_VERSION);
 	cout << "Version de OpenGL: " << version << endl;
 
@@ -104,6 +103,36 @@ int main()
 	const char * rutaFragment = "fShaderSimple.shader";
 
 	shader = new  Shader(rutaVertex, rutaFragment);
+
+	//Mapeo de atributos 
+
+	posicionID = glGetAttribLocation(shader->getID(),"posicion");
+
+	//Desenlazar el shader
+	shader->desenlazarShader();
+
+	//Habilitar el atributo
+	glEnableVertexAttribArray(posicionID);
+
+	//Especificar a Opengl como usar la memoria con ese atributo
+	glVertexAttribPointer(posicionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), 0);
+
+	//Crear un vertex array
+	glGenVertexArrays(1, &vertexArrayID);
+	glBindVertexArray(vertexArrayID);
+
+	//Crear vertex buffer
+	glGenBuffers(1, &bufferID);
+	//De aqui en adelante se trabaja con este buffer
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	//Llenar el buffer
+	glBufferData
+	(GL_ARRAY_BUFFER, sizeof(Vertice) * triangulo.size(), triangulo.data(), GL_STATIC_DRAW);
+
+
+	//soltarlos
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
 
 	//Ciclo de dibujo
 	while (!glfwWindowShouldClose(window)) {
